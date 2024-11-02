@@ -2,7 +2,7 @@ import random
 
 class BattleShip:
     def __init__(self):
-        self.team_name = "Ashit ih"
+        self.team_name = "Player 1"
         self.ships = ships
         self.opponent_board = opponent_board
         self.info = -1
@@ -135,6 +135,25 @@ class BattleShip:
                 self.opponent_board[i][0] = 1
             self.hawkeye = 0
         return (self.x,self.y)
+#
+    def manual_attack(self, row, col):
+        # Check if cell is within bounds and hasn't been targeted before
+        if 0 <= row < 10 and 0 <= col < 10 and self.opponent_board[row][col] == -1:
+            # Process the attack logic for the selected cell
+            result = self.hit_or_miss(row, col, self.get_attack_result(row, col))
+            # Update the board to show hit/miss
+            if result:
+                print("Hit!")
+            else:
+                print("Miss!")
+            # Trigger the opponent's turn next
+            self.wait_for_opponent_turn()
+
+    # Function to get attack result (could use the board's data)
+    def get_attack_result(self, row, col):
+        # Implement logic to check if there's a ship part at (row, col)
+        # Return appropriate response (e.g., 0 for hit, 1 for miss)
+        pass
 
     def hit_or_miss(self, x, y , info):
         self.info = info

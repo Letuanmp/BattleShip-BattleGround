@@ -3,7 +3,7 @@ import random
 
 class BattleShip:
     def __init__(self):
-        self.team_name = "Bang"
+        self.team_name = "Player 2"
         self.ships = ships
         self.opponent_board = opponent_board
         self.info = -1

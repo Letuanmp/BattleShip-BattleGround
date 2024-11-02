@@ -122,19 +122,24 @@ animation.initialize()
 
 
 # Randomly putting two special spots in two ships for triggering special attack !!
+# Randomly putting two special spots in two ships for triggering special attack !!
 special_spots = []
 for i in range(dim):
     for j in range(dim):
         if team1_board[i][j] == 1:
             special_spots.append((i, j))
-team1_special_spot = random.sample(set(special_spots), 2)
-# team1_special_spot = [(4, 3), (4, 4)]
+
+# Convert special_spots to a list for compatibility with random.sample
+team1_special_spot = random.sample(list(special_spots), 2)
+
 special_spots = []
 for i in range(dim):
     for j in range(dim):
         if team2_board[i][j] == 1:
             special_spots.append((i, j))
-team2_special_spot = random.sample(set(special_spots), 2)
+
+team2_special_spot = random.sample(list(special_spots), 2)
+
 #team2_special_spot = [(3,3), (3,4)]
 
 animation.team1_special_spots = team1_special_spot
@@ -190,7 +195,6 @@ def player1():
     if info == 2:
         player1()
 
-
 # Player 2 driver function
 def player2():
     global team1_board, team2_board, team1_special_spot, team2_hawkeye_activated
@@ -234,11 +238,50 @@ def player2():
     if info == 2:
         player2()
 
+import tkinter as tk
 
-while True:
-    try:
-        player1()
-        player2()
-    except Exception as e:
-        print(e)
-        pass
+def start_game():
+    # Close the popup window and start the game
+
+    start_game_vs_computer()
+
+def exit_game():
+    # Close the popup window and exit the game
+    root.destroy()
+
+def start_game_vs_computer():
+    global player_turn
+    player_turn = 1  # 1 cho player1 (người chơi), 2 cho player2 (máy tính)
+
+    # Đóng cửa sổ chọn chế độ chơi
+    root.destroy()
+
+    while True:
+        try:
+            if player_turn == 1:
+                # Để player1 (người chơi) bắn
+                player1()
+                player_turn = 2  # Chuyển sang lượt của player2 (máy tính)
+            else:
+                # Để player2 (máy tính) bắn
+                player2()
+                player_turn = 1  # Chuyển lại lượt của player1 (người chơi)
+        except Exception as e:
+            print(e)
+            pass
+
+
+# Initialize the main Tkinter window
+root = tk.Tk()
+root.title("Battleship Game")
+root.geometry("300x200")
+
+# Create buttons for starting and exiting the game
+button_start_game = tk.Button(root, text="Start Game", command=start_game)
+button_start_game.pack(pady=20)
+
+button_exit_game = tk.Button(root, text="Exit Game", command=exit_game)
+button_exit_game.pack(pady=20)
+
+# Run the Tkinter event loop
+root.mainloop()
