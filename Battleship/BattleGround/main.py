@@ -242,7 +242,6 @@ import tkinter as tk
 
 def start_game():
     # Close the popup window and start the game
-
     start_game_vs_computer()
 
 def exit_game():
